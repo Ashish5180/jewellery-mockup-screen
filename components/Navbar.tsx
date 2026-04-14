@@ -31,6 +31,17 @@ export function Navbar({ navBg }: { navBg: boolean }) {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    useEffect(() => {
+        if (isOpen || isSearchOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset";
+        }
+        return () => {
+            document.body.style.overflow = "unset";
+        };
+    }, [isOpen, isSearchOpen]);
+
     const clearHoverTimer = () => {
         if (hoverCloseTimerRef.current) {
             window.clearTimeout(hoverCloseTimerRef.current);
@@ -97,10 +108,26 @@ export function Navbar({ navBg }: { navBg: boolean }) {
                     }
                 `}</style>
 
-                <div className={`max-w-[1600px] mx-auto px-10 ${displayFont.className}`}>
+                <div className={`max-w-[1600px] mx-auto px-4 md:px-10 ${displayFont.className}`}>
                     <div className="flex items-center justify-between">
 
-                        {/* Left Navigation */}
+                    {/* Mobile Menu Toggle */}
+                    <button
+                        className="lg:hidden p-2 z-[70] relative active:scale-90 transition-all duration-300"
+                        onClick={() => setIsOpen(!isOpen)}
+                        aria-label="Toggle Menu"
+                    >
+                        <div className="relative w-6 h-5">
+                            <span className={`absolute left-0 w-full h-0.5 transition-all duration-500 ${navBg || isScrolled || isOpen ? "bg-[#800020]" : "bg-white"
+                                } ${isOpen ? "top-2 rotate-45" : "top-0"}`} />
+                            <span className={`absolute left-0 w-full h-0.5 top-2 transition-all duration-300 ${navBg || isScrolled || isOpen ? "bg-[#800020]" : "bg-white"
+                                } ${isOpen ? "opacity-0 -translate-x-4" : "opacity-100"}`} />
+                            <span className={`absolute left-0 w-full h-0.5 transition-all duration-500 ${navBg || isScrolled || isOpen ? "bg-[#800020]" : "bg-white"
+                                } ${isOpen ? "top-2 -rotate-45" : "bottom-0"}`} />
+                        </div>
+                    </button>
+
+                        {/* Left Navigation (Desktop) */}
                         <div className="hidden lg:flex items-center gap-10 flex-1">
                             <div
                                 className="relative group h-full py-2"
@@ -143,82 +170,105 @@ export function Navbar({ navBg }: { navBg: boolean }) {
                             </Link>
                         </div>
 
-                        {/* Mobile Menu Toggle */}
-                        <button
-                            className="lg:hidden p-2 active:scale-95 transition-transform"
-                            onClick={() => setIsOpen(!isOpen)}
-                        >
-                            {isOpen ? (
-                                <X className={navBg || isScrolled ? "text-[#800020]" : "text-white"} size={28} />
-                            ) : (
-                                <Menu className={navBg || isScrolled ? "text-[#800020]" : "text-white"} size={28} />
-                            )}
-                        </button>
-
-                        {/* Center Logo */}
-                        <div className="flex flex-col items-center flex-shrink-0 px-4 group cursor-pointer">
-                            <Link href="/" className={`text-4xl md:text-5xl transition-all duration-700 ease-out logo-glow ${scriptFont.className} ${navBg || isScrolled ? "text-[#800020] scale-90" : "text-white scale-100"
+                    {/* Center Logo */}
+                    <div className="flex flex-col items-center flex-shrink-0 px-2 group cursor-pointer z-[70]">
+                        <Link href="/" className={`text-xl sm:text-2xl md:text-5xl transition-all duration-700 ease-out logo-glow ${scriptFont.className} ${navBg || isScrolled || isOpen ? "text-[#800020] scale-90" : "text-white scale-100"
+                            }`}>
+                            House of Rajwada
+                        </Link>
+                        <div className="hidden md:flex items-center gap-3 mt-1.5 overflow-hidden">
+                            <div className={`h-[0.5px] w-8 transition-all duration-700 ${navBg || isScrolled ? "bg-[#800020]/30" : "bg-white/30"}`} />
+                            <span className={`text-[9px] tracking-[0.5em] font-medium uppercase transition-all duration-700 ${navBg || isScrolled ? "text-[#800020] opacity-100" : "text-white opacity-60"
                                 }`}>
-                                House of Rajwada
-                            </Link>
-                            <div className="flex items-center gap-3 mt-1.5 overflow-hidden">
-                                <div className={`h-[0.5px] w-8 transition-all duration-700 ${navBg || isScrolled ? "bg-[#800020]/30" : "bg-white/30"}`} />
-                                <span className={`text-[9px] tracking-[0.5em] font-medium uppercase transition-all duration-700 ${navBg || isScrolled ? "text-[#800020] opacity-100" : "text-white opacity-60"
-                                    }`}>
-                                    Purveyors of Elegance
-                                </span>
-                                <div className={`h-[0.5px] w-8 transition-all duration-700 ${navBg || isScrolled ? "bg-[#800020]/30" : "bg-white/30"}`} />
-                            </div>
-                        </div>
-
-                        {/* Right Navigation */}
-                        <div className="hidden lg:flex items-center justify-end gap-10 flex-1">
-
-
-                            <div className="flex items-center gap-6 ml-6">
-                                <button onClick={() => setIsSearchOpen(true)} className="hover:scale-110 active:scale-90 transition-all duration-300">
-                                    <Search className={`w-[22px] h-[22px] stroke-[1.5px] ${navBg || isScrolled ? "text-[#800020]" : "text-white"}`} />
-                                </button>
-                                <Link href="#" className="hover:scale-110 active:scale-90 transition-all duration-300 relative">
-                                    <Heart className={`w-[22px] h-[22px] stroke-[1.5px] ${navBg || isScrolled ? "text-[#800020]" : "text-white"}`} />
-                                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full scale-0 group-hover:scale-100 transition-transform"></span>
-                                </Link>
-                                <Link href="#" className="hover:scale-110 active:scale-90 transition-all duration-300">
-                                    <User className={`w-[22px] h-[22px] stroke-[1.5px] ${navBg || isScrolled ? "text-[#800020]" : "text-white"}`} />
-                                </Link>
-                                <Link href="#" className="hover:scale-110 active:scale-90 transition-all duration-300">
-                                    <ShoppingCart className={`w-[22px] h-[22px] stroke-[1.5px] ${navBg || isScrolled ? "text-[#800020]" : "text-white"}`} />
-                                </Link>
-                            </div>
+                                Purveyors of Elegance
+                            </span>
+                            <div className={`h-[0.5px] w-8 transition-all duration-700 ${navBg || isScrolled ? "bg-[#800020]/30" : "bg-white/30"}`} />
                         </div>
                     </div>
 
-                    {/* Mobile Menu Panel */}
-                    <div className={`lg:hidden absolute top-full left-0 w-full bg-white shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden ${isOpen ? "max-h-screen opacity-100 py-12" : "max-h-0 opacity-0"
-                        }`}>
-                        <div className="flex flex-col items-center gap-8 px-8 text-[#800020]">
-                            {["Collections", "Bespoke", "Heritage", "High Jewelry", "World of Rajwada"].map((link) => (
+                    {/* Right Navigation */}
+                    <div className="flex items-center justify-end gap-2 sm:gap-4 lg:gap-10 flex-1">
+                        <div className="flex items-center gap-3 sm:gap-4 lg:gap-6">
+                            <button onClick={() => setIsSearchOpen(true)} className="hover:scale-110 active:scale-90 transition-all duration-300">
+                                <Search className={`w-[18px] h-[18px] sm:w-[20px] sm:h-[20px] lg:w-[22px] lg:h-[22px] stroke-[1.5px] ${navBg || isScrolled || isOpen ? "text-[#800020]" : "text-white"}`} />
+                            </button>
+                            <Link href="#" className="hidden sm:block hover:scale-110 active:scale-90 transition-all duration-300 relative">
+                                <Heart className={`w-[20px] h-[20px] lg:w-[22px] lg:h-[22px] stroke-[1.5px] ${navBg || isScrolled || isOpen ? "text-[#800020]" : "text-white"}`} />
+                            </Link>
+                            <Link href="#" className="hover:scale-110 active:scale-90 transition-all duration-300">
+                                <ShoppingCart className={`w-[18px] h-[18px] sm:w-[20px] sm:h-[20px] lg:w-[22px] lg:h-[22px] stroke-[1.5px] ${navBg || isScrolled || isOpen ? "text-[#800020]" : "text-white"}`} />
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                {/* Premium Mobile Menu Overlay - Moved inside nav to respect stacking context */}
+                <div className={`lg:hidden fixed inset-0 z-[60] bg-gradient-to-b from-[#fdfaf8] via-[#fffcf9] to-[#fdfaf8] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] ${isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
+                    }`}>
+                    <div className="h-full flex flex-col pt-32 pb-10 px-6 sm:px-8 overflow-y-auto">
+                        <div className="flex flex-col gap-1 max-w-sm mx-auto w-full">
+                            {["Collections", "Bespoke", "Heritage", "High Jewelry", "World of Rajwada"].map((link, index) => (
                                 <Link
                                     key={link}
                                     href="#"
-                                    className="text-2xl font-light tracking-widest uppercase hover:opacity-50 transition-opacity"
+                                    className={`group flex items-center justify-between py-5 border-b border-[#800020]/5 transition-all duration-700 ${isOpen ? "translate-x-0 opacity-100" : "-translate-x-8 opacity-0"}`}
+                                    style={{ transitionDelay: `${index * 80}ms` }}
                                     onClick={() => setIsOpen(false)}
                                 >
-                                    {link}
+                                    <span className="text-2xl font-light tracking-widest text-[#800020] uppercase group-hover:pl-4 transition-all duration-500">{link}</span>
+                                    <div className="w-8 h-8 rounded-full border border-[#800020]/10 flex items-center justify-center group-hover:bg-[#800020] group-hover:text-white transition-all duration-500">
+                                        <ChevronDown className="-rotate-90 w-4 h-4" />
+                                    </div>
                                 </Link>
                             ))}
-                            <div className="flex gap-10 pt-10 border-t w-full justify-center border-[#800020]/10">
-                                <Search className="w-6 h-6 stroke-[1.5px]" onClick={() => { setIsSearchOpen(true); setIsOpen(false); }} />
-                                <Heart className="w-6 h-6 stroke-[1.5px]" />
-                                <User className="w-6 h-6 stroke-[1.5px]" />
-                                <ShoppingCart className="w-6 h-6 stroke-[1.5px]" />
+                        </div>
+
+                        {/* Mobile Featured Section */}
+                        <div className={`mt-12 max-w-sm mx-auto w-full transition-all duration-1000 delay-500 ${isOpen ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}>
+                            <p className="text-[10px] tracking-[0.4em] uppercase text-[#800020]/40 font-bold mb-6 text-center">The Artisanal Gallery</p>
+                            <div className="grid grid-cols-2 gap-4">
+                                {categories.slice(0, 2).map((cat) => (
+                                    <Link key={cat.name} href={cat.href} className="relative aspect-[4/5] rounded-2xl overflow-hidden group shadow-sm">
+                                        <Image src={cat.image} alt={cat.name} fill className="object-cover transition-transform duration-1000 group-hover:scale-110" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-[#800020]/60 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+                                        <span className="absolute bottom-4 left-4 text-white text-[10px] uppercase tracking-widest font-medium">{cat.name}</span>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Bottom Info */}
+                        <div className={`mt-auto pt-10 flex flex-col items-center gap-8 transition-all duration-1000 delay-700 ${isOpen ? "opacity-100" : "opacity-0"}`}>
+                            <div className="flex gap-10">
+                                <Link href="#" className="flex flex-col items-center gap-2 group">
+                                    <div className="w-12 h-12 rounded-full border border-[#800020]/10 flex items-center justify-center text-[#800020] group-hover:bg-[#800020] group-hover:text-white transition-all">
+                                        <User size={18} strokeWidth={1} />
+                                    </div>
+                                    <span className="text-[8px] uppercase tracking-widest text-[#800020]/60">Account</span>
+                                </Link>
+                                <Link href="#" className="flex flex-col items-center gap-2 group">
+                                    <div className="w-12 h-12 rounded-full border border-[#800020]/10 flex items-center justify-center text-[#800020] group-hover:bg-[#800020] group-hover:text-white transition-all">
+                                        <Heart size={18} strokeWidth={1} />
+                                    </div>
+                                    <span className="text-[8px] uppercase tracking-widest text-[#800020]/60">Wishlist</span>
+                                </Link>
+                                <Link href="#" className="flex flex-col items-center gap-2 group">
+                                    <div className="w-12 h-12 rounded-full border border-[#800020]/10 flex items-center justify-center text-[#800020] group-hover:bg-[#800020] group-hover:text-white transition-all">
+                                        <Search size={18} strokeWidth={1} />
+                                    </div>
+                                    <span className="text-[8px] uppercase tracking-widest text-[#800020]/60">Search</span>
+                                </Link>
+                            </div>
+                            <div className="flex flex-col items-center gap-2">
+                                <div className="h-[1px] w-12 bg-[#800020]/10 mb-2" />
+                                <p className="text-[9px] tracking-[0.6em] uppercase text-[#800020]/40 font-medium">House of Rajwada</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </nav>
 
-            {/* Search Overlay */}
             <div className={`fixed inset-0 z-[100] bg-[#800020]/95 backdrop-blur-2xl transition-all duration-700 ${isSearchOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
                 }`}>
                 <button

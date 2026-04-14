@@ -4,27 +4,12 @@ import Image from "next/image";
 
 /* ── Discover Button ─────────────────────────────────────────── */
 function DiscoverButton() {
-    const [hovered, setHovered] = useState(false);
-
     return (
         <button
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-            style={{
-                fontFamily: "var(--font-montserrat), sans-serif",
-                fontSize: 9,
-                fontWeight: 500,
-                letterSpacing: 4,
-                textTransform: "uppercase",
-                color: hovered ? "#faf8f5" : "#1a1a1a",
-                padding: "14px 32px",
-                border: "1px solid #1a1a1a",
-                background: hovered ? "#1a1a1a" : "transparent",
-                cursor: "pointer",
-                transition: "all 0.4s ease",
-            }}
+            className="group relative overflow-hidden font-sans text-[10px] font-medium tracking-[0.4em] uppercase text-[#1a1a1a] px-8 py-3.5 border border-[#1a1a1a] cursor-pointer transition-all duration-500 hover:text-[#faf8f5]"
         >
-            Discover More
+            <div className="absolute inset-0 bg-[#1a1a1a] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-right group-hover:origin-left -z-10" />
+            <span className="relative z-10">Discover More</span>
         </button>
     );
 }
@@ -53,17 +38,11 @@ function JewellerySectionRow({
 
     return (
         <section
-            style={{
-                display: "flex",
-                alignItems: "stretch",
-                minHeight: 580,
-                overflow: "hidden",
-                flexDirection: reverse ? "row-reverse" : "row",
-            }}
+            className={`flex flex-col ${reverse ? "lg:flex-row-reverse" : "lg:flex-row"} items-stretch min-h-0 lg:min-h-[580px] overflow-hidden`}
         >
             {/* ── Image Block ── */}
             <div
-                style={{ flex: "0 0 62%", position: "relative", overflow: "hidden" }}
+                className="w-full lg:w-[62%] min-h-[400px] lg:min-h-0 relative overflow-hidden"
                 onMouseEnter={() => setImgHovered(true)}
                 onMouseLeave={() => setImgHovered(false)}
             >
@@ -71,97 +50,45 @@ function JewellerySectionRow({
                     src={imageSrc}
                     alt={imageAlt}
                     fill
-                    sizes="(max-width: 768px) 100vw, 62vw"
-                    style={{
-                        objectFit: "cover",
-                        transition: "transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-                        transform: imgHovered ? "scale(1.04)" : "scale(1)",
-                    }}
+                    sizes="(max-width: 1024px) 100vw, 62vw"
+                    className={`object-cover transition-transform duration-[1200ms] ease-out ${imgHovered ? "scale-105" : "scale-100"}`}
                 />
                 {/* subtle directional shadow */}
                 <div
-                    style={{
-                        position: "absolute",
-                        inset: 0,
-                        background: reverse
-                            ? "linear-gradient(to left, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0) 60%)"
-                            : "linear-gradient(to right, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0) 60%)",
-                        pointerEvents: "none",
-                    }}
+                    className={`absolute inset-0 pointer-events-none ${reverse
+                            ? "bg-gradient-to-l from-black/5 to-transparent"
+                            : "bg-gradient-to-r from-black/5 to-transparent"
+                        }`}
                 />
             </div>
 
             {/* ── Content Block ── */}
             <div
-                style={{
-                    flex: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    textAlign: "center",
-                    padding: "60px 52px",
-                    background: "#faf8f5",
-                    position: "relative",
-                }}
+                className="flex-1 flex flex-col justify-center items-center text-center p-10 lg:p-20 bg-[#faf8f5] relative"
             >
-                {/* decorative inner border (div instead of ::before — no global CSS) */}
+                {/* decorative inner border */}
                 <div
                     aria-hidden="true"
-                    style={{
-                        position: "absolute",
-                        top: 48,
-                        left: 48,
-                        right: 48,
-                        bottom: 48,
-                        border: "0.5px solid rgba(180, 148, 90, 0.25)",
-                        pointerEvents: "none",
-                    }}
+                    className="absolute inset-8 lg:inset-12 border border-[#b4945a]/25 pointer-events-none"
                 />
 
                 {/* ornament */}
                 <span
-                    style={{
-                        fontFamily: "var(--font-cormorant), serif",
-                        fontSize: 20,
-                        color: "#b4945a",
-                        opacity: 0.5,
-                        marginBottom: 16,
-                        letterSpacing: 8,
-                        display: "block",
-                    }}
+                    className="font-serif text-xl text-[#b4945a]/50 mb-4 tracking-[0.5em] block"
                 >
                     ✦
                 </span>
 
                 {/* eyebrow */}
                 <p
-                    style={{
-                        fontFamily: "'Montserrat', sans-serif",
-                        fontSize: 9,
-                        fontWeight: 500,
-                        letterSpacing: 4,
-                        textTransform: "uppercase",
-                        color: "#b4945a",
-                        marginBottom: 20,
-                        opacity: 0.9,
-                    }}
+                    className="font-sans text-[10px] sm:text-[11px] font-medium tracking-[0.3em] uppercase text-[#b4945a] mb-5 opacity-90"
                 >
                     {eyebrowText}
                 </p>
 
                 {/* heading */}
                 <h2
-                    style={{
-                        fontFamily: "var(--font-cormorant), serif",
-                        fontSize: "clamp(28px, 3.2vw, 40px)",
-                        fontWeight: 400,
-                        letterSpacing: 3,
-                        textTransform: "uppercase",
-                        lineHeight: 1.2,
-                        color: "#1a1a1a",
-                        marginBottom: 24,
-                    }}
+                    className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-wide uppercase leading-tight text-[#1a1a1a] mb-6"
                 >
                     {headingLine1}
                     <br />
@@ -171,28 +98,12 @@ function JewellerySectionRow({
                 {/* gold divider */}
                 <div
                     aria-hidden="true"
-                    style={{
-                        width: 36,
-                        height: 1,
-                        background:
-                            "linear-gradient(to right, transparent, #b4945a, transparent)",
-                        margin: "0 auto 24px",
-                    }}
+                    className="w-10 h-[1px] bg-gradient-to-r from-transparent via-[#b4945a] to-transparent mx-auto mb-6"
                 />
 
-                {/* body */}
+                {/* body text */}
                 <p
-                    style={{
-                        fontFamily: "var(--font-cormorant), serif",
-                        fontSize: 15,
-                        fontWeight: 300,
-                        lineHeight: 1.85,
-                        color: "#555",
-                        letterSpacing: 0.3,
-                        maxWidth: 300,
-                        marginBottom: 40,
-                        fontStyle: "italic",
-                    }}
+                    className="font-serif text-base sm:text-lg font-light leading-relaxed text-[#555] tracking-wide max-w-xs mb-10 italic"
                 >
                     {bodyText}
                 </p>
@@ -207,12 +118,7 @@ function JewellerySectionRow({
 export default function JewellerySection() {
     return (
         <div
-            style={{
-                fontFamily: "var(--font-cormorant), 'Georgia', serif",
-                backgroundColor: "#faf8f5",
-                color: "#1a1a1a",
-                overflow: "hidden",
-            }}
+            className="font-serif bg-[#faf8f5] text-[#1a1a1a] overflow-hidden"
         >
              {/* Google Fonts are now loaded in layout.tsx */}
 

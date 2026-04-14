@@ -13,30 +13,30 @@ const scriptFont = Parisienne({ weight: "400", subsets: ["latin"], variable: "--
 export default function Shades() {
     return (
         <section
-            className={`bg-[#fdfbf9] py-24 px-6 sm:px-12 lg:px-20 text-center ${displayFont.variable} ${scriptFont.variable} overflow-hidden`}
+            className={`bg-[#fdfbf9] py-16 sm:py-24 px-6 sm:px-12 lg:px-20 text-center ${displayFont.variable} ${scriptFont.variable} overflow-hidden`}
         >
             {/* Header Tag */}
             <div className="mb-4">
-                <span className="text-[10px] tracking-[0.5em] uppercase text-[#800020]/60 font-medium">Curated Selection</span>
+                <span className="text-[10px] tracking-[0.5em] uppercase text-[#800020]/60 font-semibold">Our Curation Spectrum</span>
             </div>
 
             {/* Heading */}
-            <h2 className={`text-4xl sm:text-5xl lg:text-6xl font-extralight text-gray-900 leading-tight ${displayFont.className}`}>
+            <h2 className={`text-3xl sm:text-5xl lg:text-6xl font-extralight text-gray-900 leading-tight ${displayFont.className}`}>
                 The Heritage <span className={scriptFont.className} style={{ fontWeight: 400 }}>Style Spectrum</span>
             </h2>
 
             {/* Subheading */}
             <p
-                className={`mt-6 text-sm md:text-base text-gray-600 max-w-2xl mx-auto font-light tracking-wide leading-relaxed ${displayFont.className}`}
+                className={`mt-6 text-sm sm:text-base text-gray-600 max-w-2xl mx-auto font-light tracking-wide leading-relaxed ${displayFont.className}`}
             >
                 From minimalist gold accents to grand artisanal masterpieces, find the perfect curation 
                 to illuminate your unique journey and celebrate your heritage.
             </p>
 
             {/* Button */}
-            <div className="mt-10">
+            <div className="mt-8 sm:mt-10">
                 <button
-                    className={`border border-[#800020]/30 text-[#800020] px-10 py-3 text-[10px] tracking-[0.4em] uppercase
+                    className={`border border-[#800020]/30 text-[#800020] px-8 sm:px-10 py-3 text-[10px] tracking-[0.4em] uppercase
                      relative transition-all duration-500 hover:bg-[#800020] hover:text-white hover:border-[#800020] ${displayFont.className}`}
                 >
                     Find Your Style
@@ -89,13 +89,13 @@ export default function Shades() {
                 <div className="w-full h-[4px] bg-gradient-to-r from-[#D4AF37]/20 via-[#800020]/40 to-[#D4AF37]/20" />
                 
                 {/* Labels */}
-                <div className={`w-full flex justify-between text-[9px] tracking-[0.3em] uppercase text-gray-500 mt-6 px-1 ${displayFont.className}`}>
-                    <span>Daily Wear</span>
-                    <span>Contemporary</span>
-                    <span>Festive</span>
-                    <span>Heritage</span>
-                    <span>Bridal</span>
-                    <span>Royal</span>
+                <div className={`w-full grid grid-cols-2 md:grid-cols-6 gap-y-4 md:gap-y-0 text-[10px] sm:text-[9px] tracking-[0.2em] sm:tracking-[0.3em] uppercase text-gray-500 mt-8 px-1 ${displayFont.className}`}>
+                    <span className="text-center">Daily Wear</span>
+                    <span className="text-center">Contemporary</span>
+                    <span className="text-center">Festive</span>
+                    <span className="text-center">Heritage</span>
+                    <span className="text-center">Bridal</span>
+                    <span className="text-center">Royal</span>
                 </div>
             </div>
 
